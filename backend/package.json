@@ -1,0 +1,42 @@
+{
+  "name": "serverless-imageautotag-app",
+  "version": "1.0.0",
+  "description": "Serverless Images Autotag app",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-xray-sdk": "^3.2.0",
+    "axios": "^0.21.0",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "source-map-support": "^0.5.19",
+    "uuid": "^8.3.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/http-errors": "^1.8.0",
+    "@types/aws-lambda": "^8.10.64",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.14.6",
+    "aws-sdk": "^2.800.0",
+    "fork-ts-checker-webpack-plugin": "^6.0.0",
+    "serverless": "^2.13.0",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-iam-roles-per-function": "^3.0.1-6e7bcb2",
+    "serverless-offline": "^6.8.0",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-reqvalidator-plugin": "^1.0.3",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^8.0.10",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0",
+    "webpack-node-externals": "^2.5.2"
+  },
+  "author": "Carlo Miglietta",
+  "license": "MIT"
+}
