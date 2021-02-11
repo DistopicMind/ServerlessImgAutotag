@@ -94,20 +94,20 @@ GetImages result example:
 # Autotagging and query by tag
 Image processing is handled asynchronously when image is uploaded in AWS S3 bucket:
 
-S3  bucket on 'PutItem' event publishes a message with SNS and lambda function AnalyzeImage (analyzeImg.ts) handle it.
-AnalyzeImage calls AWS Rekognition detectLabel method and store results (part of it) as tags array in ImgItem.
-AnalyzeImage finally publishes the just update ImgItem with SNS and lambda function CreateTags (createTags.ts) handle it.
-CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags .
+* S3  bucket on 'PutItem' event publishes a message with SNS and lambda function AnalyzeImage (analyzeImg.ts) handle it.
+* AnalyzeImage calls AWS Rekognition detectLabel method and store results (part of it) as tags array in ImgItem.
+* AnalyzeImage finally publishes the just update ImgItem with SNS and lambda function CreateTags (createTags.ts) handle it.
+* CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags .
 
-All ImgTagItem records will be updated on image update or deleted on image deletion .
-The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS .
+* All ImgTagItem records will be updated on image update or deleted on image deletion .
+* The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS .
 
 # Backend 
-AWS S3 is used to store files
-AWS DynamoDb as database
-AWS Rekognition is used to detect tags
-AWS Lambda + Api gateway as endpoint
-SNS Topics, Request validators , Policies etc ... are all declared in serverless.yml 
+* AWS S3 is used to store files
+* AWS DynamoDb is used as database
+* AWS Rekognition is used to detect tags
+* AWS Lambda + Api gateway as endpoint
+* SNS Topics, Request validators , Policies ... and all needed AWS recources are all declared in serverless.yml 
 
 # Lambda Functions implemented
 
@@ -142,11 +142,11 @@ SNS Topics, Request validators , Policies etc ... are all declared in serverless
 
 # Frontend
 
-The `client` folder contains a simple web application but only few features are implemented
+The `client` folder contains a simple web application but only few features are implemented.
 You can only authenticate , create image , upload image, delete image and get all images.
 Tags are not implemented!
 
-To run your application you need to edit `config.ts` file in the `client` folder. You need to set also apiId and check apiEndpoint
+To run your application you need to edit `config.ts` file in the `client` folder. You need to set also apiId and check apiEndpoint.
 
 
 
