@@ -109,7 +109,7 @@ Image processing is handled asynchronously when image is uploaded in AWS S3 buck
 * AWS Lambda + Api gateway as endpoint
 * SNS Topics, Request validators , Policies ... and all needed AWS recources are all declared in serverless.yml 
 
-# Lambda Functions implemented
+## Lambda Functions implemented
 
 * `Auth` - Auth0 authorizer , with RS256 asymmetric alg and token verification against auto downloaded certificate from outh0 website. 
 
