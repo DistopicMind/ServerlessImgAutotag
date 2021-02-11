@@ -9,7 +9,7 @@ import { certToPEM } from '../utils'
 
 const logger = createLogger('auth')
 
-// Change jwksUrl
+// TODO Change jwksUrl
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
 const jwksUrl = 'https://dev-eu4ejz9w.us.auth0.com/.well-known/jwks.json'
 

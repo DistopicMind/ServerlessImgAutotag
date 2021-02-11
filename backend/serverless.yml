@@ -19,7 +19,7 @@ provider:
   runtime: nodejs12.x
 
   stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'us-east-1'}
+  region: ${opt:region, 'us-east-1'} # TODO Change with your region
 
   tracing: true
 
@@ -27,7 +27,7 @@ provider:
     IMAGES_TABLE: Images-${self:provider.stage}
     IMAGES_CREATED_AT_INDEX: Images-CreatedAtIndex-${self:provider.stage}
     IMAGESID_INDEX: ImagesId-Index-${self:provider.stage}
-    IMAGES_S3_BUCKET: images-cmi-${self:provider.stage} #Change it: mut be globelly unique 
+    IMAGES_S3_BUCKET: images-cmi-${self:provider.stage} # TODO   Change: it must be globally unique 
     SIGNED_URL_EXPIRATION: 300
     REKOGNITION_MAX_LABELS: 5
     TAG_CREATION_TOPIC_ARN: 

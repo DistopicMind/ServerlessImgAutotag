@@ -1,0 +1,2905 @@
+{
+	"info": {
+		"_postman_id": "df7b3224-0281-4db1-b3d3-d2400ab85ef2",
+		"name": "Serverless-ImageAutotag",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Authorized",
+					"item": [
+						{
+							"name": "TestUser 1",
+							"item": [
+								{
+									"name": "Create image  Test 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"var jsonRequest = JSON.parse(pm.request.body);",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.name).to.equal(jsonRequest.name);",
+													"});",
+													"",
+													"pm.test(\"CreatedAt Exist\", function () {",
+													"    pm.expect(jsonResponse.item.createdAt).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.imgId).to.be.a(\"string\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 600 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(600);",
+													"});",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgName-1\", jsonResponse.item.name);",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgId-1\", jsonResponse.item.imgId);",
+													"",
+													"console.log(\"Created imgId: \"+ pm.collectionVariables.get(\"imgId-1\"));",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"User1 New ImgItem Test1 {{$timestamp}}\"\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get attachment URL Test1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"uploadUrl\", function () {",
+													"    pm.expect(jsonData.uploadUrl).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"uploadUrl contains imgId\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonData.uploadUrl).to.include(imgId)",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													"",
+													"//Saving uploadUrl for later use",
+													"pm.collectionVariables.set(\"uploadUrl1\", jsonData.uploadUrl);",
+													"",
+													"",
+													"console.log(\"Saved uploadUrl1: \"+ pm.collectionVariables.get(\"uploadUrl1\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}/attachment",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}",
+												"attachment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UploadImage Test1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 5000 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "file",
+											"file": {
+												"src": "ImageAutotag-TestImages/TestImg1.jpg"
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl1}}",
+											"host": [
+												"{{uploadUrl1}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create image  Test2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"var jsonRequest = JSON.parse(pm.request.body);",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.name).to.equal(jsonRequest.name);",
+													"});",
+													"",
+													"pm.test(\"CreatedAt Exist\", function () {",
+													"    pm.expect(jsonResponse.item.createdAt).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.imgId).to.be.a(\"string\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgName-2\", jsonResponse.item.name);",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgId-2\", jsonResponse.item.imgId);",
+													"",
+													"console.log(\"Created imgId: \"+ pm.collectionVariables.get(\"imgId-2\"));",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"New ImgItem Test2 {{$timestamp}}\"\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get attachment URL Test2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"uploadUrl\", function () {",
+													"    pm.expect(jsonData.uploadUrl).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"uploadUrl contains imgId\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"    pm.expect(jsonData.uploadUrl).to.include(imgId)",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													"",
+													"//Saving uploadUrl for later use",
+													"pm.collectionVariables.set(\"uploadUrl2\", jsonData.uploadUrl);",
+													"",
+													"",
+													"console.log(\"Saved uploadUrl2: \"+ pm.collectionVariables.get(\"uploadUrl2\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-2}}/attachment",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-2}}",
+												"attachment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UploadImage Test2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 5000 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "file",
+											"file": {
+												"src": "ImageAutotag-TestImages/TestImg2.jpg"
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl2}}",
+											"host": [
+												"{{uploadUrl2}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create image  Test3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"var jsonRequest = JSON.parse(pm.request.body);",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.name).to.equal(jsonRequest.name);",
+													"});",
+													"",
+													"pm.test(\"CreatedAt Exist\", function () {",
+													"    pm.expect(jsonResponse.item.createdAt).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"Name is correct\", function () {",
+													"    pm.expect(jsonResponse.item.imgId).to.be.a(\"string\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgName-3\", jsonResponse.item.name);",
+													"",
+													"",
+													"pm.collectionVariables.set(\"imgId-3\", jsonResponse.item.imgId);",
+													"",
+													"console.log(\"Created imgId: \"+ pm.collectionVariables.get(\"imgId-3\"));",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"New ImgItem Test3 {{$timestamp}}\"\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get attachment URL Test3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"uploadUrl\", function () {",
+													"    pm.expect(jsonData.uploadUrl).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"uploadUrl contains imgId\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-3\");",
+													"    pm.expect(jsonData.uploadUrl).to.include(imgId)",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													"",
+													"//Saving uploadUrl for later use",
+													"pm.collectionVariables.set(\"uploadUrl3\", jsonData.uploadUrl);",
+													"",
+													"",
+													"console.log(\"Saved uploadUrl3: \"+ pm.collectionVariables.get(\"uploadUrl3\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-3}}/attachment",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-3}}",
+												"attachment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UploadImage Test3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response time is less than 5000 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "file",
+											"file": {
+												"src": "ImageAutotag-TestImages/TestImg3.jpg"
+											}
+										},
+										"url": {
+											"raw": "{{uploadUrl3}}",
+											"host": [
+												"{{uploadUrl3}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all images  - Check results",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"// Items will be returned ordered by createdAt descending ",
+													"",
+													"//ImgItem Test3",
+													"pm.test(\"ImgItem Test3: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-3\");",
+													"    pm.expect(jsonResponse.items[0].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test3: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-3\");",
+													"    pm.expect(jsonResponse.items[0].name).to.equal(imgName);",
+													"});",
+													"",
+													"",
+													"//ImgItem Test2",
+													"pm.test(\"ImgItem Test2: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"    pm.expect(jsonResponse.items[1].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-2\");",
+													"    pm.expect(jsonResponse.items[1].name).to.equal(imgName);",
+													"});",
+													"",
+													"//ImgItem Test1",
+													"pm.test(\"ImgItem Test1: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonResponse.items[2].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-1\");",
+													"    pm.expect(jsonResponse.items[2].name).to.equal(imgName);",
+													"});",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Response time is less than 600 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(600);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get image by Id Test1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test1: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonResponse.item.imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-1\");",
+													"    pm.expect(jsonResponse.item.name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: CreatedAt Exist\", function () {",
+													"    pm.expect(jsonResponse.item.createdAt).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: attachmentUrl Exist\", function () {",
+													"    pm.expect(jsonResponse.item.attachmentUrl).to.be.a(\"string\");",
+													"});",
+													"",
+													"//First use of this function ... lambda init time can be 1000 ms longer",
+													"pm.test(\"Response time is less than 1400 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(1400);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image Test1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"//First use of this function ... lambda init time can be long",
+													"pm.test(\"Response time is less than 2000 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+													"});",
+													"",
+													"var jsonRequest = JSON.parse(pm.request.body);",
+													"pm.collectionVariables.set(\"newImgName-1\", jsonRequest.name);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Updated ImgItem Test1 {{$timestamp}}\"\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get image by Id - Check Update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test1: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonResponse.item.imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: Name was update correctly\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"newImgName-1\");",
+													"    pm.expect(jsonResponse.item.name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: CreatedAt Exist\", function () {",
+													"    pm.expect(jsonResponse.item.createdAt).to.be.a(\"string\");",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: attachmentUrl Exist\", function () {",
+													"    pm.expect(jsonResponse.item.attachmentUrl).to.be.a(\"string\");",
+													"});",
+													"",
+													"//First use of this function ... lambda init time can be 1000 ms longer",
+													"pm.test(\"Response time is less than 1400 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(1400);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all images by tag - Sea Life",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"// Items will be returned ordered by createdAt descending ",
+													"//  All 3 items should be returned ImgItem Test3 (Puffer Fish ) ImgItem Test2 (Turtle ) and ImgItem Test1 (clownfish) should be returned (in this order)",
+													"",
+													"",
+													"//ImgItem Test3",
+													"pm.test(\"ImgItem Test3: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-3\");",
+													"    pm.expect(jsonResponse.items[0].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test3: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-3\");",
+													"    pm.expect(jsonResponse.items[0].name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test3: First tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[0].tags[0].name).to.equal(\"Fish\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test3: Second tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[0].tags[2].name).to.equal(\"Sea Life\");",
+													"});",
+													"",
+													"",
+													"//ImgItem Test2",
+													"pm.test(\"ImgItem Test2: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"    pm.expect(jsonResponse.items[1].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-2\");",
+													"    pm.expect(jsonResponse.items[1].name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: First tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[1].tags[0].name).to.equal(\"Turtle\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test2: Second tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[1].tags[1].name).to.equal(\"Sea Life\");",
+													"});",
+													"",
+													"",
+													"//ImgItem Test1",
+													"pm.test(\"ImgItem Test1: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonResponse.items[2].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"newImgName-1\");",
+													"    pm.expect(jsonResponse.items[2].name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: First tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[2].tags[0].name).to.equal(\"Amphiprion\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test1: Third tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[1].tags[1].name).to.equal(\"Sea Life\");",
+													"});",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Response time is less than 600 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(600);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"console.log(\"Sleeping for 10 seconds before request so all tags will be created.\");",
+													"setTimeout(function(){",
+													"          console.log(\"Done with sleeping.\");",
+													"  }, 10000);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/tags?tag=Sea Life",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"tags"
+											],
+											"query": [
+												{
+													"key": "tag",
+													"value": "Sea Life"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all images by tag - Turtle",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"// Items will be returned ordered by createdAt descending ",
+													"//  Only ImgItem Test2 (Turtle ) should be returned ",
+													"",
+													"",
+													"//ImgItem Test2 Turtle",
+													"pm.test(\"ImgItem Test3: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"    pm.expect(jsonResponse.items[0].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-2\");",
+													"    pm.expect(jsonResponse.items[0].name).to.equal(imgName);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: First tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[0].tags[0].name).to.equal(\"Turtle\");",
+													"});",
+													"",
+													"",
+													"pm.test(\"ImgItem Test2: Second tag is correct\", function () {",
+													"    pm.expect(jsonResponse.items[0].tags[1].name).to.equal(\"Sea Life\");",
+													"});",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Response time is less than 600 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(600);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/tags?tag=Turtle",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"tags"
+											],
+											"query": [
+												{
+													"key": "tag",
+													"value": "Turtle"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Image Test3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"//First use of this function ... lambda init time can be long",
+													"pm.test(\"Response time is less than 2000 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-3}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-3}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all images  - Check Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"// Items will be returned ordered by createdAt descending ",
+													"",
+													"//ImgItem Test3 removed",
+													"//ImgItem Test1 name updated",
+													"pm.test(\"ImgItem Test2: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"    pm.expect(jsonResponse.items[0].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test2: Name is correct\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"imgName-2\");",
+													"    pm.expect(jsonResponse.items[0].name).to.equal(imgName);",
+													"});",
+													"",
+													"",
+													"",
+													"//ImgItem Test1",
+													"pm.test(\"ImgItem Test1: ImageId is correct\", function () {",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\");",
+													"    pm.expect(jsonResponse.items[1].imgId).to.equal(imgId);",
+													"});",
+													"",
+													"pm.test(\"ImgItem Test1: Name was modified correctly\", function () {",
+													"    var imgName = pm.collectionVariables.get(\"newImgName-1\");",
+													"    pm.expect(jsonResponse.items[1].name).to.equal(imgName);",
+													"});",
+													"",
+													"",
+													"",
+													"",
+													"",
+													"pm.test(\"Response time is less than 800 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(800);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "TestUser 2",
+							"item": [
+								{
+									"name": "Get all images - No access to user1 images",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = pm.response.json();",
+													"",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"",
+													"// Items will be returned ordered by createdAt descending ",
+													"",
+													"//If no returned items or first returned item is not an item of user1 test will be successfull",
+													"pm.test(\"User 2 cannot access to user1 images\", function () {",
+													"    if(jsonResponse.items.length == 0){",
+													"         pm.expect(jsonResponse.items.length).equal(0);",
+													"    }else{",
+													"        var imgId = pm.collectionVariables.get(\"imgId-2\");",
+													"        pm.expect(jsonResponse.items[0].imgId).to.not.equal(imgId);",
+													"    }",
+													"    ",
+													"    ",
+													"    ",
+													"});",
+													"",
+													"",
+													"",
+													"pm.test(\"Response time is less than 1500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(1500);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken2}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get image by Id - No access to user1 imageId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    var imgId = pm.collectionVariables.get(\"imgId-2\")",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: \" + imgId + \" does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken2}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-2}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-2}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image  - No access to user1 imageId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\")",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: \" + imgId + \" does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Updated ImgItem Test1 {{$timestamp}}\"\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Image - No access to user1 imageid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    var imgId = pm.collectionVariables.get(\"imgId-1\")",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: \" + imgId + \" does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId-1}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId-1}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Request Validation",
+							"item": [
+								{
+									"name": "Create image  - Empty Body",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Body matches string\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var value = pm.globals.get(\"id\");",
+													"console.log(\"Pre init counter: \"+ pm.globals.get(\"id\"));",
+													"if( !value) {",
+													"    pm.globals.set(\"id\", 1);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create image  - Wrong Body",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Body matches string\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var value = pm.globals.get(\"id\");",
+													"console.log(\"Pre init counter: \"+ pm.globals.get(\"id\"));",
+													"if( !value) {",
+													"    pm.globals.set(\"id\", 1);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"n\": \"Wrong!\"\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create image  - Empty Parameter",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Body matches string\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var value = pm.globals.get(\"id\");",
+													"console.log(\"Pre init counter: \"+ pm.globals.get(\"id\"));",
+													"if( !value) {",
+													"    pm.globals.set(\"id\", 1);",
+													"}"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \" \"\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get attachment URL - Wrong imgId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: 123fakeid does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{authToken1}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/123fakeid/attachment",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"123fakeid",
+												"attachment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image - Wrong ImgId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: 123fakeid does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Updated Test abc\"\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/123fakeid",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"123fakeid"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image - Empty Body",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image - Wrong Body",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \" \"\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Image - Empty Parameter",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {",
+													"    pm.response.to.have.status(400);",
+													"});",
+													"pm.test(\"Invalid request body\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.message).to.eql(\"Invalid request body\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \" \"\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"{{imgId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Image - Wrong ImgId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"pm.test(\"Wrong imageid return error\", function () {",
+													"    const responseJson = pm.response.json();",
+													"    pm.expect(responseJson.error).to.eql(\"imgId: 123fakeid does not exist\");",
+													"    ",
+													"});",
+													"",
+													"",
+													"pm.test(\"Response time is less than 500 ms\", function () {",
+													"    pm.expect(pm.response.responseTime).to.be.below(500);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer {{authToken1}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{apiUrl}}/dev/images/123fakeid",
+											"protocol": "https",
+											"host": [
+												"{{apiUrl}}"
+											],
+											"path": [
+												"dev",
+												"images",
+												"123fakeid"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Unauthorized",
+					"item": [
+						{
+							"name": "Get all images - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get image by Id - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all images by tag - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/tags/?tag=Sea Life",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"tags",
+										""
+									],
+									"query": [
+										{
+											"key": "tag",
+											"value": "Sea Life"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create image - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var value = pm.globals.get(\"id\");",
+											"console.log(\"Pre init counter: \"+ pm.globals.get(\"id\"));",
+											"if( !value) {",
+											"    pm.globals.set(\"id\", 1);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"New ImgItem Test {{id}}\"\n}"
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get attachment URL - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Saving uploadUrl for later use",
+											"",
+											"",
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Forbidden\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}//dev/images/{{imgId}}/attachment",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"",
+										"dev",
+										"images",
+										"{{imgId}}",
+										"attachment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Image - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Updated Test zx\"\n\t\n}"
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Image - No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"Unauthorized\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all images - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer xxx",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get image by Id - WrongToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer xxx",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all images by tag - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer xxx",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/tags/?tag=Sea Life",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"tags",
+										""
+									],
+									"query": [
+										{
+											"key": "tag",
+											"value": "Sea Life"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create image - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var value = pm.globals.get(\"id\");",
+											"console.log(\"Pre init counter: \"+ pm.globals.get(\"id\"));",
+											"if( !value) {",
+											"    pm.globals.set(\"id\", 1);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer xxx",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"New ImgItem Test {{id}}\"\n}"
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get attachment - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer xxx",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}/attachment",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}",
+										"attachment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Image - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer xxx"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Updated Test zx\"\n\t\n}"
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Image - Wrong Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"pm.test(\"Body matches string\", function () {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.message).to.eql(\"User is not authorized to access this resource with an explicit deny\");",
+											"    ",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500 ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer xxx"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{apiUrl}}/dev/images/{{imgId}}",
+									"protocol": "https",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"dev",
+										"images",
+										"{{imgId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiUrl",
+			"value": ""
+		},
+		{
+			"key": "authToken1",
+			"value": ""
+		},
+		{
+			"key": "authToken2",
+			"value": ""
+		}
+	]
+}

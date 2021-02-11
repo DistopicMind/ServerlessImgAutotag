@@ -33,7 +33,7 @@ export async function createTagsFromImgItem(
               imgId: imgItem.imgId,
               userId: imgItem.userId,
               name: imgItem.name,
-              createdAt: new Date().toISOString(),
+              createdAt: imgItem.createdAt,
               attachmentUrl: imgItem.attachmentUrl,
               tags: imgItem.tags
               })
