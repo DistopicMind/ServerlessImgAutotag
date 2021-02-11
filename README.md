@@ -97,10 +97,9 @@ Image processing is handled asynchronously when image is uploaded in AWS S3 buck
 * S3  bucket on 'PutItem' event publishes a message with SNS and lambda function AnalyzeImage (analyzeImg.ts) handle it.
 * AnalyzeImage calls AWS Rekognition detectLabel method and store results (part of it) as tags array in ImgItem.
 * AnalyzeImage finally publishes the just update ImgItem with SNS and lambda function CreateTags (createTags.ts) handle it.
-* CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags .
-
-* All ImgTagItem records will be updated on image update or deleted on image deletion .
-* The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS .
+* CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags.
+All ImgTagItem records will be updated on image update or deleted on image deletion.
+The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS.
 
 # Backend 
 * AWS S3 is used to store files
