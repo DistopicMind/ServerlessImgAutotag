@@ -4,9 +4,9 @@ Serverless application to get images "autotagged" by AI using AWS Lambda and Ser
 
 # Functionality of the application
 
-This application will allow creating/removing/updating/fetching Image items 
-Image tags are created automatically processing each image with AI (AWS Rekognition) 
-The application will also allow to fetch Image items querying directly by tag name
+This application will allow creating/removing/updating/fetching Image items. 
+Image tags are created automatically processing each image with AI (AWS Rekognition).
+The application will also allow to fetch Image items querying directly by tag name.
 Each user only has only access to items that he/she has created.
 
 
@@ -18,9 +18,9 @@ The application return Image items, item contains the following fields:
 * `imgId` (string) - a unique id 
 * `name` (string) - a title given by user
 * `attachmentUrl` (string) (optional) - an URL pointing to image file uploaded by user
-* `tags` // (TagItem array) (optional) - tags (setted  asynchronously after imgae upload)
+* `tags` (TagItem array) (optional) - tags (setted  asynchronously after imgae upload)
 
-Every Tag Item contain 2 fields: 
+Every TagItem contain 2 fields: 
 
 * `name` (string) - the label detected 
 * `confidence` (number) - related label confidence
@@ -37,8 +37,8 @@ GetImages result example:
             "attachmentUrl": "https://imageurl", 
             "tags": [ 
                 {
-                    "name": "Turtle", // (string) - the label detected 
-                    "confidence": "98.01" //(number) - related label confidence
+                    "name": "Turtle",
+                    "confidence": "98.01"
                 },
                 {
                     "name": "Sea Life",
@@ -111,7 +111,7 @@ SNS Topics, Request validators , Policies etc ... are all declared in serverless
 
 # Lambda Functions implemented
 
-* `Auth` - Auth0 authorizer , with RS256 asymmetric alg and token verification against auto downloaded certificate on outh0 website. 
+* `Auth` - Auth0 authorizer , with RS256 asymmetric alg and token verification against auto downloaded certificate from outh0 website. 
 
 * `GetImages` - return all images for a current user. Ordered by createdAt descending
 
@@ -131,7 +131,7 @@ SNS Topics, Request validators , Policies etc ... are all declared in serverless
 
 * `DeleteImg` - receive an imgId as path param and delete all resources related to imgId
 
-* `GenerateUploadUrl` - returns a pre-signed URL that can be used to upload an attachment file for a img item.
+* `GenerateUploadUrl` - returns a pre-signed URL that can be used to upload an attachment file for a img item
 
 * `AnalyzeImage` - receive S3 event,call Rekognition detectLabel method, update ImgId with results and publish with SNS 
 
@@ -153,7 +153,8 @@ To run your application you need to edit `config.ts` file in the `client` folder
 
 ## Authentication
 
-To implement authentication in the application, you have to create an Auth0 application and copy "domain" and "client id" to the `config.ts` file in the `client` folder
+Authentication in the application is provided with Auth0, so to run your application you have to create an Auth0 application and copy "domain" and "client id" to the `config.ts` file in the `client` folder.
+You have to update also `jwksUrl` in `Auth0Authorizer.ts`
 
 
 
