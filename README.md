@@ -1,6 +1,6 @@
 # Serverless Image Autotag 
 
-Serverless application using AWS Lambda and Serverless framework. 
+Serverless application to get images "autotagged" by AI using AWS Lambda and Serverless framework. 
 
 # Functionality of the application
 
@@ -12,16 +12,30 @@ Each user only has only access to items that he/she has created.
 
 # Images items
 
-The application return Image items:
+The application return Image items, item contains the following fields:
+
+* `createdAt` string) - date and time when an item was created
+* `imgId` (string) - a unique id 
+* `name` (string) - a title given by user
+* `attachmentUrl` (string) (optional) - an URL pointing to image file uploaded by user
+* `tags` // (TagItem array) (optional) - tags (setted  asynchronously after imgae upload)
+
+Every Tag Item contain 2 fields: 
+
+* `name` (string) - the label detected 
+* `confidence` (number) - related label confidence
+
+
+GetImages result example:
 
 ```json
   "items": [
         {
-            "createdAt": "2021-02-10T19:52:34.949Z", //(string) - date and time when an item was created
-            "imgId": "123", // (string) - a unique id 
-            "name": "My best pic", // (string) - a title given by user
-            "attachmentUrl": "https://imageurl", // (string) (optional) - an URL pointing to image file uploaded by user
-            "tags": [ // (array) (optional) - tags will be  setted  asynchronously after imgae upload
+            "createdAt": "2021-02-10T19:52:34.949Z",
+            "imgId": "123", 
+            "name": "My best pic", 
+            "attachmentUrl": "https://imageurl", 
+            "tags": [ 
                 {
                     "name": "Turtle", // (string) - the label detected 
                     "confidence": "98.01" //(number) - related label confidence
@@ -73,21 +87,20 @@ The application return Image items:
             ]
         }
       ]
-    
-        
+
 ```
 
 
-# Autotagging and query by tag details
+# Autotagging and query by tag
 Image processing is handled asynchronously when image is uploaded in AWS S3 bucket:
 
 S3  bucket on 'PutItem' event publishes a message with SNS and lambda function AnalyzeImage (analyzeImg.ts) handle it.
-AnalyzeImage calls AWS Rekognition detectLabel method and store results (part of it) as tags array in ImgItem
+AnalyzeImage calls AWS Rekognition detectLabel method and store results (part of it) as tags array in ImgItem.
 AnalyzeImage finally publishes the just update ImgItem with SNS and lambda function CreateTags (createTags.ts) handle it.
-CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags 
+CreateTags will create a new record (ImgTagItem) for every tag founded in imgItem.tags .
 
-All ImgTagItem records will be updated on image update or deleted on image deletion
-The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS
+All ImgTagItem records will be updated on image update or deleted on image deletion .
+The number of tags returned is a static variable in serverless.yml: REKOGNITION_MAX_LABELS .
 
 # Backend 
 AWS S3 is used to store files
@@ -148,7 +161,7 @@ To implement authentication in the application, you have to create an Auth0 appl
 # How to run the application
 
 ## Backend
-Before deploying the application create your own Auth0 application (see ) and set `jwksUrl` in `Auth0Authorizer.ts`
+Before deploying the application create your own Auth0 application and set `jwksUrl` in `Auth0Authorizer.ts`
 
 To deploy an application run the following commands:
 
